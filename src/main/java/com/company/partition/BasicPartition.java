@@ -1,6 +1,14 @@
 package main.java.com.company.partition;
 
+import java.util.function.BiFunction;
+
 public class BasicPartition implements PartitionStrategy {
+
+    private BiFunction<Integer, Integer, Boolean> comparison;
+
+    public BasicPartition(BiFunction<Integer, Integer, Boolean> comparison){
+        this.comparison = comparison;
+    }
 
     public int partition(int[] data, int begin, int end){
         int pivot = data[begin];
@@ -8,7 +16,7 @@ public class BasicPartition implements PartitionStrategy {
 
         for(int i=rightBegin; i <= end; i++)
         {
-            if (data[i] < pivot)
+            if (this.comparison.apply(data[i], pivot))
             {
                 this.swap(data, i, rightBegin);
                 rightBegin++;
