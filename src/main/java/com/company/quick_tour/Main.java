@@ -12,17 +12,29 @@ public class Main {
 
     public static void main(String[] args)
     {
+        int[] data = getInputNumbers();
+        BasicPartition partition = new BasicPartition(comparison());
+        Quicksort quicksort = new Quicksort(partition);
+        quicksort.sort(data, 0, data.length-1);
+        System.out.println(getOutputString(data));
+    }
+
+    private static int[] getInputNumbers(){
         System.out.println("Please enter numbers: ");
         Scanner scan = new Scanner(System.in);
         String[] arr = scan.nextLine().split(" ");
-        int[] data = Arrays.stream(arr).mapToInt(Integer::valueOf).toArray();
-        BiFunction<Integer, Integer, Boolean> comparison = (item, pivot) -> item.toString().length() > pivot.toString().length();
-        BasicPartition partition = new BasicPartition(comparison);
-        Quicksort quicksort = new Quicksort(partition);
-        quicksort.sort(data, 0, data.length-1);
-        String output = Arrays.stream(data)
-                        .mapToObj(String::valueOf)
-                        .collect(Collectors.joining(", "));
-        System.out.println(output);
+        return Arrays.stream(arr).mapToInt(Integer::valueOf).toArray();
+    }
+
+    private static BiFunction<Integer, Integer, Boolean> comparison(){
+        return (item, pivot) -> {
+            return item.toString().length() > pivot.toString().length();
+        };
+    }
+
+    private static String getOutputString(int[] data){
+        return Arrays.stream(data)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(", "));
     }
 }
